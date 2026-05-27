@@ -13,7 +13,7 @@ try:
     options.add_argument('--disable-gpu')  # Optional, recommended for Windows
     options.add_argument('--window-size=1920x1080')  # Optional, set window size
 
-    driver.get("https://owasp.org/Top10/2025/") #original url has changed so I have to use this one
+    driver.get("https://store.steampowered.com/category/action_tps") #original url has changed so I have to use this one
     title = driver.title # Find the title.
     print(f"Title: {title}")
 
