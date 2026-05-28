@@ -29,21 +29,25 @@ try:
     
     body = driver.find_element(By.CSS_SELECTOR,'body') 
     games = driver.find_elements(By.CSS_SELECTOR, "a[href*='/app/']")
+    #sets --> handle duplicates
+    handle_duplicates = set()
     
     for get_game in games:
-        # print(get_game)
-        # href for url - get_attribute 
         url = get_game.get_attribute("href")
-        # print(url)
+        
+        if url:
+            handle_duplicates.add(url)
+        print(url)
+            
         #Conditional to check for "img" --> extract image and then title from the image
         # Use find_element for image
-        #handle duplicates
+    
         
         #build a dictionary for: title, publisher, release date, reviews (for analytics)
         game_dict = {
             "Url": url
         }
-        print(game_dict)
+        # print(game_dict)
         
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
