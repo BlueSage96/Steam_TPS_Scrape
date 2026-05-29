@@ -1,3 +1,4 @@
+#Scrape raw data
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -64,10 +65,11 @@ try:
         game_dict.append({
             "Title": title,
             "Url": url,
+            "Image": image
         })
-        
+    print(game_dict)
     game_frame = pd.DataFrame(game_dict)
-    print(game_frame)
+    # print(game_frame)
         
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
