@@ -30,24 +30,29 @@ try:
     
     body = driver.find_element(By.CSS_SELECTOR,'body') 
     time.sleep(5)
-    games = driver.find_elements(By.CSS_SELECTOR, "a[href*='/app/']")
-    
-    #sets --> handle duplicates
+    cards = driver.find_elements(By.CLASS_NAME, "ImpressionTrackedElement")
+  
+    #Find reviews separately
+    reviews = driver.find_elements(By.CSS_SELECTOR, "a[href*='#app_reviews_hash']")
+ 
+    # #sets --> handle duplicates
     handle_duplicates = set()
     
-    game_dict = []
-    print("Number of game elements found:", len(games))
+    card_dict = []
+    review_dict = []
     
-    for get_game in games:
+    for get_card in cards:
+ 
         # skip links that don't have an image
-        if not get_game.find_elements(By.TAG_NAME, "img"):
+        if not get_card.find_element(By.TAG_NAME, "img"):
          continue
      
-        image = get_game.find_element(By.TAG_NAME,"img")
+        image = get_card.find_element(By.TAG_NAME,"img")
         title = image.get_attribute("alt")
         
         #handle urls
-        url = get_game.get_attribute("href")
+        links = get_card.find_element(By.TAG_NAME,"a")
+        url = links.get_attribute("href")
         
         if not url:
             continue
@@ -60,18 +65,26 @@ try:
             continue
         
         handle_duplicates.add(url)
-
-        #build a dictionary for: title, publisher, release date, reviews (for analytics)
-        game_dict.append({
+        
+        #Price
+        price = get_card.find_element(By.CLASS_NAME,"StoreSalePriceWidgetContainer")
+        
+        card_dict.append({
             "Title": title,
             "Url": url,
-            "Image": image
+            "Image": image.get_attribute("src"),         
+            "Prices" : price.text
         })
-    print(game_dict)
-    game_frame = pd.DataFrame(game_dict)
-    # print(game_frame)
+        
+    # print(f"Dictionary: {card_dict}")
+    game_frame = pd.DataFrame(card_dict)
+    print(game_frame)
+    
+   
         
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
     driver.quit()
+    
+    
