@@ -30,19 +30,18 @@ try:
     
     body = driver.find_element(By.CSS_SELECTOR,'body') 
     time.sleep(5)
+    
     cards = driver.find_elements(By.CLASS_NAME, "ImpressionTrackedElement")
-  
     #Find reviews separately
     reviews = driver.find_elements(By.CSS_SELECTOR, "a[href*='#app_reviews_hash']")
  
-    # #sets --> handle duplicates
+    #sets --> handle duplicates
     handle_duplicates = set()
     
     card_dict = []
     review_dict = []
     
     for get_card in cards:
- 
         # skip links that don't have an image
         if not get_card.find_element(By.TAG_NAME, "img"):
          continue
@@ -78,10 +77,37 @@ try:
         
     # print(f"Dictionary: {card_dict}")
     game_frame = pd.DataFrame(card_dict)
-    print(game_frame)
+    # print(game_frame)
     
-   
+    #Reviews - get scores
+    for views in reviews:
+        #extract review scores
+        scores = views.find_elements(By.TAG_NAME, "div")
         
+        #Make variables for review and count
+        review_score = ""
+        review_count = ""
+
+        for score in scores:
+            aria = score.get_attribute("aria-label")
+            #If it's not aria, keep going --> like image above
+            if not aria:
+                continue
+
+            if "review score" in aria.lower():
+                review_score = score.text
+
+            elif "user reviews" in aria.lower():
+                review_count = aria
+
+        print("Score:", review_score)
+        print("Count:", review_count)
+        print("-----")
+    
+        # add to dictionary
+    
+    #loop through both dictionaires and combine them
+    #test both dictionaries before combining!
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
