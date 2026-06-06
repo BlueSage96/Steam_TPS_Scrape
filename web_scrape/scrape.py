@@ -76,8 +76,8 @@ try:
         })
         
     # print(f"Dictionary: {card_dict}")
-    game_frame = pd.DataFrame(card_dict)
-    # print(game_frame)
+    card_frame = pd.DataFrame(card_dict)
+    # print(card_frame)
     
     #Reviews - get scores
     for views in reviews:
@@ -99,13 +99,14 @@ try:
 
             elif "user reviews" in aria.lower():
                 review_count = aria
-
-        print("Score:", review_score)
-        print("Count:", review_count)
-        print("-----")
     
         # add to dictionary
-    
+        review_dict.append({
+            "Score": review_score,
+            "Count": review_count 
+        })
+    review_frame = pd.DataFrame(review_dict)
+    # print(review_frame)
     #loop through both dictionaires and combine them
     #test both dictionaries before combining!
 except Exception as e:
