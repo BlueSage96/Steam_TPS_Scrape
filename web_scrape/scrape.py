@@ -78,10 +78,6 @@ try:
             "Prices" : price.text
         })
         
-    # print(f"Dictionary: {card_dict}")
-    # card_frame = pd.DataFrame(card_dict)
-    # print(card_frame)
-    
     #Reviews - get scores
     for views in reviews:
         #extract review scores
@@ -109,14 +105,15 @@ try:
         "Score": review_score,
         "Count": review_count
         })
-    # review_frame = pd.DataFrame(review_dict)
-    # print(review_frame)
-    
-    #loop through both dictionaires and combine them
-    # for master in card_dict:
-    #     master_dict.append(card_dict)
-    # # print(f"Dictionary: {card_dict}")
-    # master_deck = pd.DataFrame(master_dict)
+ 
+        #loop through both dictionaires and combine them
+    for card, review in zip(card_dict, review_dict):
+        combined = card.copy() #make copy of card deck
+        combined.update(review) # add reviews to card deck
+        master_dict.append(combined)
+    # print(f"Dictionary: {card_dict}")
+    master_deck = pd.DataFrame(master_dict)
+    print(master_deck)
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
