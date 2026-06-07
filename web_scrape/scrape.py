@@ -40,6 +40,7 @@ try:
     
     card_dict = []
     review_dict = []
+    master_dict = []
     
     for get_card in cards:
         # skip links that don't have an image
@@ -60,10 +61,12 @@ try:
         url = url.split("?")[0]      # remove ?snr=
         url = url.rstrip("/")        # remove trailing /
         
-        if url in handle_duplicates:
+        app_id = url.split("/app/")[1].split("/")[0]
+
+        if app_id in handle_duplicates:
             continue
-        
-        handle_duplicates.add(url)
+
+        handle_duplicates.add(app_id)
         
         #Price
         price = get_card.find_element(By.CLASS_NAME,"StoreSalePriceWidgetContainer")
@@ -76,7 +79,7 @@ try:
         })
         
     # print(f"Dictionary: {card_dict}")
-    card_frame = pd.DataFrame(card_dict)
+    # card_frame = pd.DataFrame(card_dict)
     # print(card_frame)
     
     #Reviews - get scores
@@ -102,13 +105,18 @@ try:
     
         # add to dictionary
         review_dict.append({
-            "Score": review_score,
-            "Count": review_count 
+        "ReviewUrl": views.get_attribute("href"),
+        "Score": review_score,
+        "Count": review_count
         })
-    review_frame = pd.DataFrame(review_dict)
+    # review_frame = pd.DataFrame(review_dict)
     # print(review_frame)
+    
     #loop through both dictionaires and combine them
-    #test both dictionaries before combining!
+    # for master in card_dict:
+    #     master_dict.append(card_dict)
+    # # print(f"Dictionary: {card_dict}")
+    # master_deck = pd.DataFrame(master_dict)
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
