@@ -116,7 +116,7 @@ try:
     print(master_deck)
     
     #save to csv
-    master_deck.to_csv("steam_deck.csv", index=False)
+    master_deck.to_csv("web_scrape/steam_deck.csv", index=False)
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
