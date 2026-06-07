@@ -73,9 +73,9 @@ try:
         
         card_dict.append({
             "Title": title,
-            "Url": url,
             "Image": image.get_attribute("src"),         
-            "Prices" : price.text
+            "Prices" : price.text,
+            "Url": url,
         })
         
     #Reviews - get scores
@@ -114,6 +114,9 @@ try:
     # print(f"Dictionary: {card_dict}")
     master_deck = pd.DataFrame(master_dict)
     print(master_deck)
+    
+    #save to csv
+    master_deck.to_csv("steam_deck.csv", index=False)
 except Exception as e:
     print(f"An exception occurred: {type(e).__name__}{e}")
 finally:
