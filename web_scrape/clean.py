@@ -13,4 +13,4 @@ data_tps["User Reviews"] = (
     .str.replace("User Reviews", "", regex=False)
     .str.strip()
 )
-print(f"Integer for reviews: {data_tps["User Reviews"]}")
+print(f"Integer for reviews:\n {data_tps}")
