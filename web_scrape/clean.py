@@ -30,3 +30,6 @@ print(f"Original Prices:\n {data_tps["Original Prices"]}")
 data_tps["Discounts"] = split_prices.apply(lambda x: x[0] if len(x) == 3 else "0%")
 print(f"Discounts:\n {data_tps["Discounts"]}")
 
+#Sale Prices
+data_tps["Sale Prices"] = split_prices.apply(lambda x: x[2] if len(x) == 3 else ("0" if "Free" in x else x[0]))
+print(f"Sale Prices:\n {data_tps["Sale Prices"]}")
