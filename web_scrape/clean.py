@@ -21,3 +21,7 @@ print(f"Integer for reviews:\n {data_tps}")
 split_prices = data_tps['Original Prices'].str.replace('\n', ' | ')
 split_prices = split_prices.str.split(' | ',regex=False)
 print(split_prices)
+
+#Create "Discounts" column
+data_tps["Discounts"] = split_prices.apply(lambda x: x[0] if len(x) == 3 else "0%")
+print(data_tps["Discounts"])
