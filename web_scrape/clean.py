@@ -5,7 +5,7 @@ data_tps = pd.read_csv("steam_deck.csv")
 print(f"Original data:\n {data_tps}") #Vanilla data
 
 #Rename some columns
-data_tps = data_tps.rename(columns={"ReviewUrl":"Review URL", "Count":"User Reviews", "Score":"User Score","Prices":"Original Prices"})
+data_tps = data_tps.rename(columns={"Url":"URL","ReviewUrl":"Review URL", "Count":"User Reviews", "Score":"User Score","Prices":"Original Prices"})
 print(f"Changed column names:\n {data_tps}")
 
 #Convert user reviews from strings to integers
@@ -33,3 +33,9 @@ print(f"Discounts:\n {data_tps["Discounts"]}")
 #Sale Prices
 data_tps["Sale Prices"] = split_prices.apply(lambda x: x[2] if len(x) == 3 else ("0" if "Free" in x else x[0]))
 print(f"Sale Prices:\n {data_tps["Sale Prices"]}")
+
+print(data_tps[["Original Prices","Discounts","Sale Prices"]])
+
+game_tps = data_tps[["Title","Image","URL","Original Prices","Discounts","Sale Prices"]]
+print(game_tps)
+game_tps.to_csv("clean_games.csv",index=False)
