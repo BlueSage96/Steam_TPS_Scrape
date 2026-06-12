@@ -36,6 +36,12 @@ print(f"Sale Prices:\n {data_tps["Sale Prices"]}")
 
 print(data_tps[["Original Prices","Discounts","Sale Prices"]])
 
+#Games into csv file
 game_tps = data_tps[["Title","Image","URL","Original Prices","Discounts","Sale Prices"]]
 print(game_tps)
 game_tps.to_csv("clean_games.csv",index=False)
+
+#Reviews into csv file
+review_tps = data_tps[["Review URL","User Score","User Reviews"]]
+print(review_tps)
+review_tps.to_csv("clean_reviews.csv")
