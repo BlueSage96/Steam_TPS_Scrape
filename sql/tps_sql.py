@@ -4,14 +4,13 @@ import pandas as pd
 # use conn & sqlite3 to create database
 conn = sqlite3.connect("tps.db")
 #use pd.read_csv
-game_tps = pd.read_csv("../web_scrape/clean_games.csv")
-print(f"Game csv loaded:\n {game_tps}")
+games_df = pd.read_csv("../web_scrape/clean_games.csv")
+print(f"Game csv loaded:\n {games_df}")
 
-review_tps = pd.read_csv("../web_scrape/clean_reviews.csv")
-print(f"Review csv loaded:\n {review_tps}")
-#csv names.to_sql() --> look up params
+reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
+print(f"Review csv loaded:\n {reviews_df}")
 
-#print tables to confirm existence --> 
-# variable = pd.read_sql then print(variable)
+# Create or replace tables
+games_df.to_sql("games",conn,if_exists="replace",index=False)
+reviews_df.to_sql("reviews",conn,if_exists="replace",index=False)
 
-#close sql database
