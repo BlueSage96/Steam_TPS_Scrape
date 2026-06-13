@@ -20,19 +20,19 @@ print(f"Integer for reviews:\n {data_tps}")
 #Split "Original Prices" into a Series of lists
 split_prices = data_tps['Original Prices'].str.replace('\n', ' | ')
 split_prices = split_prices.str.split(' | ',regex=False)
-print(split_prices)
+print(f"Split Original Prices:\n {split_prices}")
 
 #Parse out discounts and sales prices
 data_tps["Original Prices"] = split_prices.apply(lambda x: x[1] if len(x) == 3 else ("0" if "Free" in x else x[0]))
-print(f"Original Prices:\n {data_tps["Original Prices"]}")
+print(f"Original Prices:\n {data_tps['Original Prices']}")
 
 #Create "Discounts" column
 data_tps["Discounts"] = split_prices.apply(lambda x: x[0] if len(x) == 3 else "0%")
-print(f"Discounts:\n {data_tps["Discounts"]}")
+print(f"Discounts:\n {data_tps['Discounts']}")
 
 #Sale Prices
 data_tps["Sale Prices"] = split_prices.apply(lambda x: x[2] if len(x) == 3 else ("0" if "Free" in x else x[0]))
-print(f"Sale Prices:\n {data_tps["Sale Prices"]}")
+print(f"Sale Prices:\n {data_tps['Sale Prices']}")
 
 print(data_tps[["Original Prices","Discounts","Sale Prices"]])
 
@@ -44,4 +44,4 @@ game_tps.to_csv("clean_games.csv",index=False)
 #Reviews into csv file
 review_tps = data_tps[["Review URL","User Score","User Reviews"]]
 print(review_tps)
-review_tps.to_csv("clean_reviews.csv")
+review_tps.to_csv("clean_reviews.csv",index=False)
