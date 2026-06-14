@@ -52,5 +52,22 @@ print("All discounts:\n")
 for row in q3:
     print(row)
     
-     
+# 4. Find the average user reviews of paid games 
+# - HAVING average User_Recviews
+q4 = cursor.execute("""
+     SELECT Original_Prices, AVG(User_Reviews)
+     FROM reviews
+     JOIN games
+     ON games.AppID = reviews.AppID
+     WHERE Original_Prices != "Free To Play"
+     GROUP BY Original_Prices
+     HAVING AVG(User_Reviews)
+""")
+
+print("Average user reviews of paid games:\n")
+for row in q4:
+    print(row)
+    
+    
+
 conn.close()
