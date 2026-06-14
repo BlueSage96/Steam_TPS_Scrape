@@ -25,17 +25,18 @@ q1 = cursor.execute("""
     ORDER BY Title
 """)
 
-# print("Alphabetical game titles:\n")
-# for row in q1:
-#     print(row)
+print("Alphabetical game titles:\n")
+for row in q1:
+    print(row)
     
 #2. Show all Free To Play games.
-# q2 = cursor.execute("""
-#     SELECT "Original Prices", "Sale Prices"
-# 	FROM games 
-# 	WHERE free LIKE "%Free%"                          
-# """)
-# print("All Free To Play games:\n")
-# for row in q2:
-#     print(row)
+q2 = cursor.execute("""
+    SELECT Original_Prices as op, Sale_Prices as sp
+	FROM games 
+	WHERE Original_Prices = "Free To Play"
+    OR Sale_Prices = "Free To Play"                          
+""")
+print("All Free To Play games:\n")
+for row in q2:
+    print(row)
 conn.close()
