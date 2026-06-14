@@ -36,7 +36,21 @@ q2 = cursor.execute("""
 	WHERE Original_Prices = "Free To Play"
     OR Sale_Prices = "Free To Play"                          
 """)
+
 print("All Free To Play games:\n")
 for row in q2:
     print(row)
+ 
+ # 3. Show all games with discounts   
+q3 = cursor.execute("""
+    SELECT Title, Discounts
+	FROM games  
+    WHERE Discounts != "0%"                    
+""")
+
+print("All discounts:\n")
+for row in q3:
+    print(row)
+    
+     
 conn.close()
