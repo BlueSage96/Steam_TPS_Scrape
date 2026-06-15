@@ -9,10 +9,10 @@ data_tps = data_tps.rename(columns={"Url":"URL","ReviewUrl":"Review_URL", "Count
 print(f"Changed column names:\n {data_tps}")
 
 #Convert user reviews from strings to integers
-data_tps["User Reviews"] = (
+data_tps["User_Reviews"] = (
     data_tps["User_Reviews"]
     .astype(str)
-    .str.replace("User_Reviews", "", regex=False)
+    .str.replace("User Reviews", "", regex=False)
     .str.strip()
 )
 print(f"Integer for reviews:\n {data_tps}")
@@ -36,6 +36,7 @@ print(f"Sale Prices:\n {data_tps['Sale_Prices']}")
 
 print(data_tps[["Original_Prices","Discounts","Sale_Prices"]])
 
+#Create app id to link games and reviews tables
 data_tps["AppID"] = (
     data_tps["URL"]
     .str.split("/app/")

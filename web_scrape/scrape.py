@@ -111,7 +111,7 @@ try:
         combined = card.copy() #make copy of card deck
         combined.update(review) # add reviews to card deck
         master_dict.append(combined)
-    # print(f"Dictionary: {card_dict}")
+
     master_deck = pd.DataFrame(master_dict)
     print(master_deck)
     
