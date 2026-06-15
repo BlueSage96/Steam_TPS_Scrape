@@ -16,11 +16,6 @@ reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
 games_df.to_sql("games",conn,if_exists="replace",index=False)
 reviews_df.to_sql("reviews",conn,if_exists="replace",index=False)
 
-test = cursor.execute("""
-    PRAGMA table_info(reviews)               
-""")
-for row in test:
-    print(row)
 #queries
 
 # 1. List all games alphabetically.
@@ -36,7 +31,7 @@ for row in q1:
     
 #2. Show all Free To Play games.
 q2 = cursor.execute("""
-    SELECT Original_Prices, Sale_Prices
+    SELECT Title, Original_Prices, Sale_Prices
 	FROM games 
 	WHERE Original_Prices = "Free To Play"
     OR Sale_Prices = "Free To Play"                          
