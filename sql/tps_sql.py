@@ -7,15 +7,20 @@ cursor = conn.cursor()
 
 #use pd.read_csv
 games_df = pd.read_csv("../web_scrape/clean_games.csv")
-print(f"Game csv loaded:\n {games_df}")
+# print(f"Game csv loaded:\n {games_df}")
 
 reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
-print(f"Review csv loaded:\n {reviews_df}")
+# print(f"Review csv loaded:\n {reviews_df}")
 
 # Create or replace tables
 games_df.to_sql("games",conn,if_exists="replace",index=False)
 reviews_df.to_sql("reviews",conn,if_exists="replace",index=False)
 
+test = cursor.execute("""
+    PRAGMA table_info(reviews)               
+""")
+for row in test:
+    print(row)
 #queries
 
 # 1. List all games alphabetically.
@@ -83,6 +88,18 @@ print("\n5. Most reviewed discounted game:\n")
 for row in q5:
     print(row)
     
-    
+# Top 5 most-reviewed games
+q6 = cursor.execute("""
+     SELECT Title, User_Reviews, User_Score
+     FROM reviews
+     JOIN games
+     ON games.AppID = reviews.AppID
+     ORDER BY User_Reviews DESC
+     LIMIT 5               
+""")
 
+print("\n6. Top 5 most reviewed games:\n")
+for row in q6:
+    print(row)
+    
 conn.close()

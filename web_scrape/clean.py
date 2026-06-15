@@ -8,13 +8,21 @@ print(f"Original data:\n {data_tps}") #Vanilla data
 data_tps = data_tps.rename(columns={"Url":"URL","ReviewUrl":"Review_URL", "Count":"User_Reviews", "Score":"User_Score","Prices":"Original_Prices"})
 print(f"Changed column names:\n {data_tps}")
 
-#Convert user reviews from strings to integers
+# Convert user reviews from strings to integers
 data_tps["User_Reviews"] = (
     data_tps["User_Reviews"]
     .astype(str)
     .str.replace("User Reviews", "", regex=False)
+    .str.replace(",", "", regex=False)
     .str.strip()
 )
+
+data_tps["User_Reviews"] = pd.to_numeric(
+    data_tps["User_Reviews"],
+    downcast="integer",
+    errors="coerce"
+)
+
 print(f"Integer for reviews:\n {data_tps}")
 
 #Split "Original Prices" into a Series of lists
