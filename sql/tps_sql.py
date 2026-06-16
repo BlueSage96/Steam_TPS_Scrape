@@ -27,6 +27,7 @@ def alpha_games(cursor):
     return cursor.fetchall()
 print("1. Alphabetical game titles:\n")
 q1 = alpha_games(cursor)
+
 for row in q1:
     print(row)
     
@@ -42,6 +43,7 @@ def free_2_play(cursor):
 
 print("\n2. All Free To Play games:\n")
 q2 = free_2_play(cursor)
+
 for row in q2:
     print(row)
  
@@ -55,6 +57,7 @@ def discounted_games(cursor):
     return cursor.fetchall();
 print("\n3. All discounts:\n")
 q3 = discounted_games(cursor)
+
 for row in q3:
     print(row)
     
@@ -73,23 +76,28 @@ def average_reviews(cursor):
     return cursor.fetchall()
 print("\n4. Average user reviews of paid games:\n")
 q4 = average_reviews(cursor)
+
 for row in q4:
     print(row)
     
-# #Most-Reviewed Discounted Game
-# q5 = cursor.execute("""
-#      SELECT Title, Discounts, User_Reviews
-#      FROM reviews
-#      JOIN games 
-#      ON games.AppID = reviews.AppID
-#      WHERE Discounts != "0%"
-#      ORDER BY User_Reviews DESC
-#      LIMIT 1
-# """)
+#Most-Reviewed Discounted Game
+def discounted_game(cursor):
+    cursor.execute("""
+     SELECT Title, Discounts, User_Reviews
+     FROM reviews
+     JOIN games 
+     ON games.AppID = reviews.AppID
+     WHERE Discounts != "0%"
+     ORDER BY User_Reviews DESC
+     LIMIT 1
+""")
+    return cursor.fetchone()
 
-# print("\n5. Most reviewed discounted game:\n")
-# for row in q5:
-#     print(row)
+print("\n5. Most reviewed discounted game:\n")
+
+q5 = discounted_game(cursor)
+for row in q5:
+    print(row)
     
 # # Top 5 most-reviewed games
 # q6 = cursor.execute("""
