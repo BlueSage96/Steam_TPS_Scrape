@@ -7,10 +7,10 @@ cursor = conn.cursor()
 
 #use pd.read_csv
 games_df = pd.read_csv("../web_scrape/clean_games.csv")
-print(f"Game csv loaded:\n {games_df}")
+# print(f"Game csv loaded:\n {games_df}")
 
 reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
-print(f"Review csv loaded:\n {reviews_df}")
+# print(f"Review csv loaded:\n {reviews_df}")
 
 # Create or replace tables
 games_df.to_sql("games",conn,if_exists="replace",index=False)
@@ -33,11 +33,11 @@ for row in q1:
 #2. Show all Free To Play games.
 def free_2_play(cursor):
     cursor.execute("""
-    SELECT Title, Original_Prices, Sale_Prices
-	FROM games 
-	WHERE Original_Prices = "Free To Play"
-    OR Sale_Prices = "Free To Play"                          
-""")
+        SELECT Title, Original_Prices
+        FROM games 
+        WHERE Original_Prices = "Free To Play"
+        OR Sale_Prices = "Free To Play"                          
+    """)
     return cursor.fetchall();
 
 print("\n2. All Free To Play games:\n")
@@ -46,15 +46,17 @@ for row in q2:
     print(row)
  
  # 3. Show all games with discounts  
-# q3 = cursor.execute("""
-#     SELECT Title, Discounts
-# 	FROM games  
-#     WHERE Discounts != "0%"                    
-# """)
-
-# print("\n3. All discounts:\n")
-# for row in q3:
-#     print(row)
+def discounted_games(cursor):
+    cursor.execute("""
+        SELECT Title, Discounts
+        FROM games  
+        WHERE Discounts != "0%"                    
+    """)
+    return cursor.fetchall();
+print("\n3. All discounts:\n")
+q3 = discounted_games(cursor)
+for row in q3:
+    print(row)
     
 # # 4. Find the average user reviews of paid games 
 # # HAVING average User_Reviews

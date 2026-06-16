@@ -4,7 +4,7 @@ import numpy as np      # Helps generate random numbers
 
 import plotly.express as px  # For interactive charts
 import sqlite3
-from tps_sql import alpha_games, free_2_play
+from tps_sql import alpha_games, free_2_play, discounted_games
 
 games_df = pd.read_csv("../web_scrape/clean_games.csv")
 reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
@@ -14,6 +14,7 @@ cursor = conn.cursor()
 
 df1 = alpha_games(cursor)
 df2 = free_2_play(cursor)
+df3 = discounted_games(cursor)
 
 # Query 1: Game titles - dropdown list
 #convert game titles from tuples to lists
@@ -36,5 +37,19 @@ with tab2:
     
     
 #Query 2: Free to play games - table
-st.write("All Free to Play Games")
+st.subheader('All Free to Play Games')
 st.table(df2)
+
+#Query 3: All games with discounts - bar chart
+df3 = pd.DataFrame(df3, columns=["Title","Discounts"])
+#Convert negative numbers to positives
+df3["Discounts"] = (
+    df3["Discounts"]
+    .astype(str)
+    .str.replace("-", "", regex=False)
+    .str.strip()
+)
+st.subheader('All Games with Discounts %')  # Subheading for the chart
+bar_chart = px.bar(df3, x='Discounts', y="Title", barmode='group')  # Grouped bar chart
+st.plotly_chart(bar_chart)
+# st.bar_chart(df3,x="Discounts",y="Title",border="horizontal")
