@@ -4,15 +4,18 @@ import numpy as np      # Helps generate random numbers
 
 import plotly.express as px  # For interactive charts
 import sqlite3
-from tps_sql import alpha_games
+from tps_sql import alpha_games, free_2_play
 
 games_df = pd.read_csv("../web_scrape/clean_games.csv")
 reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
 
 conn = sqlite3.connect("tps.db")
 cursor = conn.cursor()
-df1 = alpha_games(cursor)
 
+df1 = alpha_games(cursor)
+df2 = free_2_play(cursor)
+
+# Query 1: Game titles - dropdown list
 #convert game titles from tuples to lists
 game_titles = [row[0] for row in df1]
 
@@ -30,3 +33,8 @@ with tab1:
     st.dataframe(games_df)
 with tab2:
     st.dataframe(reviews_df)
+    
+    
+#Query 2: Free to play games - table
+st.write("All Free to Play Games")
+st.table(df2)
