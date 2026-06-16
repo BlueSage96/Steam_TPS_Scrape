@@ -58,21 +58,23 @@ q3 = discounted_games(cursor)
 for row in q3:
     print(row)
     
-# # 4. Find the average user reviews of paid games 
-# # HAVING average User_Reviews
-# q4 = cursor.execute("""
-#      SELECT AVG(User_Reviews), User_Score
-#      FROM reviews
-#      JOIN games
-#      ON games.AppID = reviews.AppID
-#      WHERE Original_Prices != "Free To Play"
-#      GROUP BY User_Score
-#      HAVING AVG(User_Reviews)
-# """)
-
-# print("\n4. Average user reviews of paid games:\n")
-# for row in q4:
-#     print(row)
+# 4. Find the average user reviews of paid games 
+# HAVING average User_Reviews
+def average_reviews(cursor):
+    cursor.execute("""
+     SELECT AVG(User_Reviews), User_Score
+     FROM reviews
+     JOIN games
+     ON games.AppID = reviews.AppID
+     WHERE Original_Prices != "Free To Play"
+     GROUP BY User_Score
+     HAVING AVG(User_Reviews)
+""")
+    return cursor.fetchall()
+print("\n4. Average user reviews of paid games:\n")
+q4 = average_reviews(cursor)
+for row in q4:
+    print(row)
     
 # #Most-Reviewed Discounted Game
 # q5 = cursor.execute("""
