@@ -80,7 +80,7 @@ q4 = average_reviews(cursor)
 for row in q4:
     print(row)
     
-#Most-Reviewed Discounted Game
+#5. Most-Reviewed Discounted Game
 def discounted_game(cursor):
     cursor.execute("""
      SELECT Title, Discounts, User_Reviews
@@ -99,18 +99,20 @@ q5 = discounted_game(cursor)
 for row in q5:
     print(row)
     
-# # Top 5 most-reviewed games
-# q6 = cursor.execute("""
-#      SELECT Title, User_Reviews, User_Score
-#      FROM reviews
-#      JOIN games
-#      ON games.AppID = reviews.AppID
-#      ORDER BY User_Reviews DESC
-#      LIMIT 5               
-# """)
-
-# print("\n6. Top 5 most reviewed games:\n")
-# for row in q6:
-#     print(row)
+# Top 5 most-reviewed games
+def top_5(cursor): 
+    cursor.execute("""
+     SELECT Title, User_Reviews, User_Score
+     FROM reviews
+     JOIN games
+     ON games.AppID = reviews.AppID
+     ORDER BY User_Reviews DESC
+     LIMIT 5               
+""")
+    return cursor.fetchall()
+print("\n6. Top 5 most reviewed games:\n")
+q6 = top_5(cursor)
+for row in q6:
+    print(row)
     
 conn.close()
