@@ -29,14 +29,70 @@ with st.sidebar:
     selected_game = st.selectbox(
     "View games",options=game_titles,index=None,placeholder="Select a game"
     )
+    st.space("small")
+    #show what was selected
+    if selected_game:
+        st.write(f"Current game: {selected_game}")
+        
+        df1 = pd.DataFrame(df1,columns=["Title"])
+        df1 = df1[df1['Title'] == selected_game]  # Filter the DataFrame based on the selected game
+        df2 = pd.DataFrame(df2,columns=["Title", "Discounts"])
+        df2 = df2[df2['Title'] == selected_game]  # Filter the DataFrame based on the selected game
+        
+    else:
+        st.info("Select a game from the sidebar.")
+        st.stop()
+       
+    st.space("small")
+    radio = st.radio("View Reviews", options=["Very Positive",'Mostly Positive','Mixed','Mostly Negative','Very Negative'])
+    filtered_reviews = reviews_df[reviews_df["User_Score"] == radio]
     
+    st.space("small")
+    #Price slider
+    games_df["Original_Prices"] = (
+    games_df["Original_Prices"]
+    .astype(str)
+    .str.replace("$", "", regex=False)
+    .replace("Free To Play", 0)
+    .astype(float)
+    )
+    
+    games_df["Sale_Prices"] = (
+    games_df["Sale_Prices"]
+    .astype(str)
+    .str.replace("$", "", regex=False)
+    .replace("Free To Play", 0)
+    .astype(float)
+    )
+    
+    max_price = st.slider(
+    "Maximum Price",
+    min_value=0,
+    max_value=100,
+    value=70
+    )
+    
+    filtered_games = games_df[
+    games_df["Original_Prices"] <= max_price]
+    
+    min_reviews = st.slider(
+    "Minimum Reviews",
+    min_value=0,
+    max_value=700000,
+    value=50000
+)
+
+filtered_reviews = reviews_df[
+    reviews_df["User_Reviews"] >= min_reviews
+]
+
 #Tabs
 tab1, tab2 = st.tabs(["Games","Reviews"])
 
 with tab1:
-    st.dataframe(games_df)
+    st.dataframe(filtered_games)
 with tab2:
-    st.dataframe(reviews_df)
+    st.dataframe(filtered_reviews)
     
     
 #Query 2: Free to play games - table
