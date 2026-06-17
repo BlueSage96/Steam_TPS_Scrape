@@ -5,9 +5,14 @@ import plotly.express as px  # For interactive charts
 import sqlite3
 from tps_sql import alpha_games, free_2_play, discounted_games, average_reviews, discounted_game, top_5
 
-games_df = pd.read_csv("../web_scrape/clean_games.csv")
-reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+games_path = BASE_DIR / "web_scrape" / "clean_games.csv"
+reviews_path = BASE_DIR / "web_scrape" / "clean_reviews.csv"
 
+games_df = pd.read_csv(games_path)
+
+reviews_df = pd.read_csv(reviews_path)
 conn = sqlite3.connect("tps.db")
 cursor = conn.cursor()
 
