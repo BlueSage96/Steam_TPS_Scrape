@@ -1,6 +1,5 @@
 import streamlit as st  
 import pandas as pd     # Used to work with tabular data
-import numpy as np      # Helps generate random numbers
 
 import plotly.express as px  # For interactive charts
 import sqlite3
@@ -76,15 +75,14 @@ with st.sidebar:
     games_df["Original_Prices"] <= max_price]
     
     min_reviews = st.slider(
-    "Minimum Reviews",
+    "Review Count",
     min_value=0,
     max_value=700000,
-    value=50000
-)
+    value=50000)
 
-filtered_reviews = reviews_df[
-    reviews_df["User_Reviews"] >= min_reviews
-]
+    filtered_reviews = reviews_df[
+    (reviews_df["User_Score"] == radio) &
+    (reviews_df["User_Reviews"] >= min_reviews)]
 
 #Tabs
 tab1, tab2 = st.tabs(["Games","Reviews"])

@@ -55,11 +55,11 @@ data_tps["AppID"] = (
 print(data_tps[["AppID", "Title"]])
 
 #Games into csv file
-game_tps = data_tps[["AppID","Title","Image","URL","Original_Prices","Discounts","Sale_Prices"]]
+game_tps = data_tps[["AppID","Title","Original_Prices","Discounts","Sale_Prices","Image","URL"]]
 # print(game_tps)
 game_tps.to_csv("clean_games.csv",index=False)
 
 #Reviews into csv file
-review_tps = data_tps[["AppID","Review_URL","User_Score","User_Reviews"]]
+review_tps = data_tps[["AppID","User_Score","User_Reviews","Review_URL",]]
 # print(review_tps)
 review_tps.to_csv("clean_reviews.csv",index=False)
