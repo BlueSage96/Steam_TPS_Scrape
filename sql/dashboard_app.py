@@ -18,6 +18,11 @@ df4 = average_reviews(cursor)
 df5 = discounted_game(cursor)
 df6 = top_5(cursor)
 
+st.title("Steam Third-Person Shooter Dashboard")
+
+st.write(
+    "Explore Steam third-person shooter games, review scores, discounts, and pricing."
+)
 # Query 1: Game titles - dropdown list
 #convert game titles from tuples to lists
 game_titles = [row[0] for row in df1]
@@ -88,14 +93,49 @@ with st.sidebar:
 tab1, tab2 = st.tabs(["Games","Reviews"])
 
 with tab1:
-    st.dataframe(filtered_games)
+    rows_per_page = 5
+
+    total_pages = max(1, (len(filtered_games) - 1) // rows_per_page + 1)
+
+    page = st.number_input(
+        "Page",
+        min_value=1,
+        max_value=total_pages,
+        value=1,
+        key="games_page"
+    )
+
+    start = (page - 1) * rows_per_page
+    end = start + rows_per_page
+
+    st.dataframe(filtered_games.iloc[start:end])
+
 with tab2:
-    st.dataframe(filtered_reviews)
+    rows_per_page = 5
+
+    total_pages = max(1, (len(filtered_reviews) - 1) // rows_per_page + 1)
+
+    page = st.number_input(
+        "Page",
+        min_value=1,
+        max_value=total_pages,
+        value=1,
+        key="reviews_page"
+    )
+
+    start = (page - 1) * rows_per_page
+    end = start + rows_per_page
+
+    st.dataframe(filtered_reviews.iloc[start:end])
     
     
 #Query 2: Free to play games - table
 st.subheader('All Free to Play Games')
-st.table(df2)
+
+if df2.empty:
+    st.write("No free-to-play data for selected game.")
+else:
+    st.table(df2)
 
 #Query 3: All games with discounts - bar chart
 df3 = pd.DataFrame(df3, columns=["Title","Discounts"])
@@ -107,7 +147,7 @@ df3["Discounts"] = (
     .str.strip()
 )
 st.subheader('All Games with Discounts %')  # Subheading for the chart
-bar_chart = px.bar(df3, x='Discounts', y="Title", barmode='group')  # Grouped bar chart
+bar_chart = px.bar(df3, x='Discounts', y="Title", barmode='group', color_discrete_sequence=["#d62728"])  # Grouped bar chart
 st.plotly_chart(bar_chart)
 
 #Query 4 - Average user reviews of paid games - pie chart
@@ -131,7 +171,10 @@ st.metric(
     value=reviews
 )
 
+st.space("small")
 #Query 6 - Top 5 most-reviews games
 st.subheader("Top 5 Most Reviewed Games")
 df6 = pd.DataFrame(df6, columns=["Title","User_Reviews","User_Score"])
-bar_chart = st.bar_chart(df6,x="User_Score",y="User_Reviews",horizontal=True)
+# bar_chart = st.bar_chart(df6,x="User_Score",y="User_Reviews",horizontal=True)
+bar_chart = px.bar(df6, x='User_Score', y="User_Reviews", barmode='group', color_discrete_sequence=["#840df4" ]) 
+st.plotly_chart(bar_chart)
