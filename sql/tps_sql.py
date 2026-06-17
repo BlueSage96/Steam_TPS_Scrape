@@ -1,16 +1,17 @@
 import sqlite3
 import pandas as pd
-
+from pathlib import Path
 # use conn & sqlite3 to create database
 conn = sqlite3.connect("tps.db")
 cursor = conn.cursor()
 
 #use pd.read_csv
-games_df = pd.read_csv("../web_scrape/clean_games.csv")
-# print(f"Game csv loaded:\n {games_df}")
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-reviews_df = pd.read_csv("../web_scrape/clean_reviews.csv")
-# print(f"Review csv loaded:\n {reviews_df}")
+games_df = pd.read_csv(BASE_DIR / "web_scrape" / "clean_games.csv")
+print(f"Game csv loaded:\n {games_df}")
+reviews_df = pd.read_csv(BASE_DIR / "web_scrape" / "clean_reviews.csv")
+print(f"Review csv loaded:\n {reviews_df}")
 
 # Create or replace tables
 games_df.to_sql("games",conn,if_exists="replace",index=False)
